@@ -1,0 +1,344 @@
+#!/bin/bash
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+
+# (c) Antonio Sánchez León, 2010, 2011, 2012, 2013, 2014,2015, 2016, 2017 <introlinux[fix@]gmail[fix.]com>
+# (c) Miguel Anxo Bouzada, 2010, 2011, 2012, 2013, 2014,2015, 2016, 2017 <mbouzada[fix@]gmail[fix.]com>
+# (c) GALPon MinNo Team, 2010, 2011, 2012, 2013, 2014,2015, 2016, 2017 <minino[fix@]galpon[fix.]org>
+
+## -
+
+case $LANG in
+	ca*)
+		TIT0="Transferir el sistema"
+        TIT1="On transferim tot el sistema?"
+        TEXT1A="La destinació ha de tenir una mida d'almenys"
+        TEXT1B="\ni estar formatat en EXT4.\n\nEt caldrà el doble si està transferint des\nd'un DVD comprimit."
+        TIT2="Transferint el sistema ..."
+        TEXT2="Sistema transferit.\n\nReinicia el sistema abans de desendollar\nper assegurar que totes les particions\nes van desmuntar correctament."
+        TEXT3="Transferència cancel·lada.\nEl sistema no est à completament transferit."
+        TEXT4="Hi va haver algun problema en transferir el sistema.\nSegurament no estigui completament transferit\ni no podràs iniciar-ho."
+        ECHO1="Això trigarà una estona. Paciència! ..."
+        ECHO2="Uf! La carpeta /usr sí que té coses..."
+        ECHO3="Ja queda menys."
+        ECHO4="Ja queda molt poquet."
+
+MSG="Aquesta utilitat <b>no formata</b> el disc de destinació, 
+simplement copia i instal·la un carregador d'arrencada. 
+Si necessites formatar, fes-ho abans de llançar l'script, 
+pots utilitzar l'eina <i>Gparted</i> per a això. \n
+A més, vés amb compte i neteja l'historial dels navegadors, 
+contrasenyes que puguis tenir guardades, documents a les 
+teves carpetes personals ... abans de bolcar el sistema en 
+l'equip d'un amic o veí per preservar la teva intimitat. \n
+Si necessites informació sobre com fer això, 
+pregunta en el <a href='http://minino.galpon.org/es/forum'>fòrum de GALPon MiniNo</a>. "
+	;;
+	es*)
+		TIT0="Transferir el sistema"
+		TIT1="¿Dónde transferimos todo el sistema?"
+		TEXT1A="El destino debe tener un tamaño de al menos"
+		TEXT1B="\ny estar formateado en EXT4.\n\nNecesitará el doble si está transfiriendo desde\nun DVD comprimido."
+		TIT2="Transfiriendo el sistema ..."
+		TEXT2="Sistema transferido.\n\nReinicie el sistema antes de desenchufar\npara asegurar que todas las particiones\nse desmontaron correctamente."
+		TEXT3="Transferencia cancelada.\nEl sistema no está completamente transferido."
+		TEXT4="Hubo algún problema al transferir el sistema.\nSeguramente no esté completamente transferido\ny no podrá iniciarlo."
+		ECHO1="Esto tardará un rato. Sea paciente ..."
+		ECHO2="Uf! La carpeta /usr sí que tiene cosas..."
+		ECHO3="Ya queda menos."
+		ECHO4="Ya queda muy poquito."
+MSG="Esta utilidad <b>no formatea</b> el disco de destino, 
+simplemente copia e instala un cargador de arranque. 
+Si necesita formatear, hágalo antes de lanzar el script, 
+puede utilizar la herramienta <i>Gparted</i> para ello. \n
+Además, tenga cuidado y limpie el historial de los navegadores, 
+contraseñas que pueda tener guardadas, documentos en sus 
+carpetas personales... antes de volcar el sistema en el equipo 
+de un amigo o vecino para preservar su intimidad. \n
+Si necesita información sobre cómo hacer esto, 
+pregunte en el <a href='http://minino.galpon.org/es/forum'>foro de GALPon MiniNo</a>. "
+	;;
+	gl*)
+		TIT0="Transferir o sistema"
+		TIT1="Cara onde transferimos todo o sistema?"
+		TEXT1A="O destino ten que ter un tamaño de polo menos"
+		TEXT1B="\ne estar formatado en EXT4.\n\nNecesitará o dobre se está a transferir desde\nun DVD comprimido."
+		TIT2="Transferindo o sistema ..."
+		TEXT2="Sistema transferido.\n\nReinicie o sistema antes de desenchufar\npara asegurar que todas as particións\nforon desmontadas correctamente."
+		TEXT3="Transferencia cancelada.\nO sistema non foi transferido completamente."
+		TEXT4="Xurdiu algún problema ao transferir o sistema.\nSeguramente non estea transferido completamente\ne non poderá inicialo."
+		ECHO1="A isto aínda lle vai levar o seu ..."
+		ECHO2="Vaites! O cartafol /usr sí que está cheíño..."
+		ECHO3="Xa faltou máis."
+		ECHO4="Pouco queda xa."
+MSG="Esta utilidade <b>non formata</b> o disco de destino,
+simplemente copia e instala un cargador de arrinque.
+Se necesita formatar, fágao antes de executar o script,
+pode utilizar a ferramenta <i>Gparted</i> para elo. \n
+Ademais, teña coidado e limpe o historial dos navegadores,
+contrasinais que poida ter gardadas, documentos nos seus
+cartafoles persoais... antes de envorcar o sistema no
+equipo dun amigo ou veciño para preservar a súa intimidade. \n
+Se necesita información sobre como facer isto,
+pregunte no <a href='http://minino.galpon.org/gl/forum'>foro de GALPon MiniNo</a>. "
+	;;
+	*)
+		TIT0="Transfer system"
+        TIT1="Where the system will be transfered?"
+        TEXT1A="The target must have a size of at least"
+        TEXT1B="\nand formated in EXT4.\n\nYou will need the double if the source is a live DVD."
+        TIT2="Transfering the system..."
+        TEXT2="System transfered.\n\nRestart before unpluging\nto be sure all partitions\nare umounted."
+        TEXT3="Transfer canceled.\nThe system is not transfered completly."
+        TEXT4="There was a problem when transferring the system.\nSurely not completely transferred\nand you can't boot it."
+		ECHO1="This will take a while, be patient..."
+		ECHO2="Wow! The folder /usr has a lot of stuffs..."
+		ECHO3="Not much longer now."
+		ECHO4="It's getting close."
+MSG="This utility does <b>not format</b> the target disk,
+simply copies files and installs a boot loader.
+If you need to format, do it before launching the utility,
+you can use <i>Gparted</i> tool for this task. \n
+Also, be careful and clean the browser history,
+saved passwords you may have, documents in your
+personal folders ... before transfer the system
+on the computer of a friend or neighbor to preserve
+your privacy. \n
+If you need information for doing this,
+please ask in <a href='http://minino.galpon.org/en/forum'>GALPon MiniNo forum</a>. "
+	;;
+esac
+
+# DEPENDENCIAS: gdisk, util-linux, zenity o yad, refind, grub
+
+# Determinar si usar Zenity o Yad
+if [ -e /usr/bin/zenity ]; then
+	GMessage="yad"
+else
+	GMessage="yad"
+fi
+
+KERNEL="vmlinuz-`uname -r`"
+ICON="drive-harddisk"
+
+traspasaMiniNo(){
+
+	rm /tmp/todaslasparticiones;touch /tmp/todaslasparticiones
+
+	# RECOGEMOS DATOS
+	discousado=`df -h|grep "rootfs"|awk '{print $3}'`
+	tamanioroot=`df |grep "rootfs"|awk '{print $3}'`
+	blkid -o device >/tmp/particiones
+	blkid >/tmp/infoparticiones
+	python encuentra-pendrive.py >/tmp/infopendrives
+
+	# ESTO ES PARA EL FORMATEO DEL LO QUE APARECERÁ EN ZENITY/YAD
+	# particion tiene forma /dev/sda1
+	for particion in `cat /tmp/particiones`;do
+		INFOPARTI=`fdisk -l $particion|grep $particion|grep bytes|cut -d"," -f1`
+		SD=`echo $particion|tr -d [:digit:]`
+		SDINFO=`cat /tmp/infopendrives|grep $SD|cut -d"," -f1`
+		LABEL=`cat /tmp/infoparticiones|grep $particion|awk -F'LABEL=' '{print $2}'|awk '{print $1}'`
+		if [ "$LABEL" == "" ];then LABEL="Sin etiqueta";fi
+		FORMAT=`cat /tmp/infoparticiones|grep $particion|awk -F'TYPE=' '{print $2}'|awk '{print $1}'`
+		ESPACIO=" ----> "
+		LINEA="$INFOPARTI $FORMAT $ESPACIO $LABEL $SDINFO"
+		echo "$LINEA" >>/tmp/todaslasparticiones
+	done
+	rpl ": " ":   " /tmp/todaslasparticiones
+	cat /tmp/todaslasparticiones |cut -d" " -f2- |tac| ${GMessage} --list --title "${TIT1}" \
+		--text "${TEXT1A} $discousado ${TEXT1B}" --width 500 --height 300 \
+		--window-icon "$ICON" --image "$ICON" --column Dispositivos >/tmp/partielegida
+
+
+	# PARTIELEGIDA tiene forma sda1
+	PARTIELEGIDA=`cat /tmp/partielegida|cut -d":" -f1|cut -d"/" -f3`
+	if [ "$PARTIELEGIDA" == "" ] || [ "$PARTIELEGIDA" == "/" ];then exit 0;fi
+	umount /dev/$PARTIELEGIDA
+
+
+	# AQUÍ TRANSFERIMOS EL SISTEMA
+	(
+	cd /tmp
+	mkdir $PARTIELEGIDA
+	mount /dev/$PARTIELEGIDA /tmp/$PARTIELEGIDA
+	#tamaniodrive=`df|grep "/dev/$PARTIELEGIDA"|awk '{print $3}'`
+	cd /
+	#echo $(($tamaniodrive*100/$tamanioroot))
+	echo 3
+	### Copiamos todo el sistema al destino, como no tenemos forma de saber el
+	### progreso de la copia, dividimos lo que se tiene que copiar en carpetas y simulamos una especie de progreso
+	echo "#${ECHO1}"
+	rsync -va --exclude '*' --exclude '/tmp' --include '*/' / /tmp/$PARTIELEGIDA/
+	echo 6
+	rsync -va --delete /bin/ /tmp/$PARTIELEGIDA/bin/
+	echo 10
+	rsync -va --delete /boot/ /tmp/$PARTIELEGIDA/boot/
+	echo 12
+	rsync -va --delete /etc/ /tmp/$PARTIELEGIDA/etc/
+	echo 14
+	rsync -vaXAH --delete --ignore-errors /lib/ /tmp/$PARTIELEGIDA/lib/ --exclude 'live/mount/*'
+	echo 18
+	rsync -va --delete /var/ /tmp/$PARTIELEGIDA/var/
+	echo 25
+	rsync -vaXAH --delete --ignore-errors /home/ /tmp/$PARTIELEGIDA/home/ --exclude '/home/remastersys/*'
+	echo 30
+	echo "#${ECHO2}"
+	rsync -va --delete /usr/bin/ /tmp/$PARTIELEGIDA/usr/bin/
+	echo 35
+	rsync -va --delete /usr/share/ /tmp/$PARTIELEGIDA/usr/share/
+	echo 40
+	rsync -va --delete /usr/local/ /tmp/$PARTIELEGIDA/usr/local/
+	echo 45
+	rsync -va --delete /usr/share/lib/ /tmp/$PARTIELEGIDA/usr/share/lib/
+	echo 50
+	rsync -va --delete --ignore-errors /usr/ /tmp/$PARTIELEGIDA/usr/
+
+	rsync -va --delete /proc /tmp/$PARTIELEGIDA/ --exclude '/proc/*';rm -r /tmp/$PARTIELEGIDA/proc/*
+	rsync -va --delete /dev /tmp/$PARTIELEGIDA/ --exclude '/dev/*';rm -r /tmp/$PARTIELEGIDA/dev/*
+	rsync -va --delete /sys /tmp/$PARTIELEGIDA/ --exclude '/sys/*';rm -r /tmp/$PARTIELEGIDA/sys/*
+	rsync -va --delete /run /tmp/$PARTIELEGIDA/ --exclude '/run/*';rm -r /tmp/$PARTIELEGIDA/run/*
+
+	echo 60
+	echo "#${ECHO3}"
+    	rsync -va --delete /opt/ /tmp/$PARTIELEGIDA/opt/
+	echo 65
+	rsync -va --delete /root/ /tmp/$PARTIELEGIDA/root/
+	echo 70
+	rsync -vaXAH --delete --ignore-errors /sbin/ /tmp/$PARTIELEGIDA/sbin/
+	echo 75
+	rsync -va --delete --ignore-errors /srv/ /tmp/$PARTIELEGIDA/srv/
+	echo 77
+	rsync -vaxXAH --ignore-errors / /tmp/$PARTIELEGIDA/ --exclude '/home/remastersys/*' --exclude '/proc/*' --exclude '/dev/*' --exclude '/sys/*' --exclude '/tmp/*' --exclude '/media/*' --exclude '/mnt/*' --exclude '/run/*' --exclude '/lib/live/mount/*' --exclude '/live/*' --exclude '/selinux/*'
+	echo 80
+	echo "#${ECHO4}"
+	rm /tmp/$PARTIELEGIDA/etc/udev/rules.d/70-persistent-net.rules
+
+	### Etiquetamos el destino para no andar con UUIDs
+	e2label /dev/$PARTIELEGIDA minino-$PARTIELEGIDA
+
+	echo 85
+	### Modificamos fstab para que el sistema encuentre dónde está la nueva partición
+	cp /tmp/$PARTIELEGIDA/etc/fstab /tmp/$PARTIELEGIDA/etc/fstab-original
+	cat <<-EOF >/tmp/$PARTIELEGIDA/etc/fstab
+	# /etc/fstab: static file system information.
+	# Format:
+	#  <file system>         <mount point>   <type>  <options>      <dump>  <pass>
+
+	proc /proc  proc  defaults  0  0
+
+	LABEL=minino-$PARTIELEGIDA  /  ext4  errors=remount-ro,noatime,commit=60  0  1
+	/SWAPFILE none swap sw 0 0
+
+	EOF
+
+	### Actualizamos configuración por si se usa REFIND para arrancar EN UEFI
+	######### EN PRUEBAS INSTALACIÓN CON UEFI
+	disktype=`echo $PARTIELEGIDA|cut -c 1`
+
+	if [ "$disktype" = "s" ];then
+    	disk=`echo -n $PARTIELEGIDA |head -c -1`
+	else
+    	disk=`echo -n $PARTIELEGIDA |head -c -2`
+	fi
+
+
+	if [ "$disktype" = "s" ];then
+
+    	efipart=`gdisk -l /dev/$disk|grep EF00|awk '{print $1}'`
+		numpartefi=$efipart
+	else
+    	efipart=`gdisk -l /dev/$disk|grep EF00|awk '{print $1}'`
+		numpartefi=$efipart
+    	efipart="p"$efipart
+	fi
+
+	echo -n '"Boot with standard options"  "ro root=' >/tmp/$PARTIELEGIDA/boot/refind_linux.conf
+	uuid=`blkid -o export -s UUID /dev/$PARTIELEGIDA| grep UUID`
+	echo -n $uuid >>/tmp/$PARTIELEGIDA/boot/refind_linux.conf
+	echo -n ' quiet splash zswap.zpool=zsmalloc"' >>/tmp/$PARTIELEGIDA/boot/refind_linux.conf
+
+	if [ "$efipart" = "" ];then
+	    echo "No se encuentra la partición EFI."
+	    
+	else
+		#efipart=$disk$efipart
+
+		echo "Instalamos refind"
+		cd /opt/refind/refind/
+		./refind-install --usedefault /dev/$efipart --alldrivers
+	fi
+
+
+	### Añadimos un archivo swap en el raíz del destino de 256M
+
+	dd if=/dev/zero of=/tmp/$PARTIELEGIDA/SWAPFILE bs=1M count=256
+	mkswap -L SWAP /tmp/$PARTIELEGIDA/SWAPFILE
+
+	echo 90
+	### Instalamos GRUB
+	mount -B /dev /tmp/$PARTIELEGIDA/dev
+	mount -t proc proc /tmp/$PARTIELEGIDA/proc
+	mount -t sysfs sysfs /tmp/$PARTIELEGIDA/sys
+		#Grub considera la imagen.png del logo que usa refind como otro kernel y lo muestra en el menú,
+		#estos mv son para evitarlo
+		mv /tmp/$PARTIELEGIDA/boot/${KERNEL}.png /tmp/$PARTIELEGIDA/boot/a.png
+	chroot /tmp/$PARTIELEGIDA update-grub
+		mv /tmp/$PARTIELEGIDA/boot/a.png /tmp/$PARTIELEGIDA/boot/${KERNEL}.png
+
+	discoduro=`echo $PARTIELEGIDA |tr -d [:digit:]`
+	chroot /tmp/$PARTIELEGIDA grub-install /dev/$discoduro
+	sync
+	umount -a
+	umount /tmp/$PARTIELEGIDA/dev
+	umount /tmp/$PARTIELEGIDA/proc
+	umount /tmp/$PARTIELEGIDA/sys
+	umount /tmp/$PARTIELEGIDA
+	echo 100
+	)|${GMessage} --progress --auto-close --auto-kill --width 400 --title "${TIT2}" --window-icon "$ICON" --image "$ICON"
+
+	case $? in
+		0) ${GMessage} --info --text "${TEXT2}" --window-icon "$ICON" --image "$ICON"
+		;;
+		1) killall rsync
+     		killall dd
+     		umount -a
+     		umount /tmp/$PARTIELEGIDA/dev
+     		umount /tmp/$PARTIELEGIDA/proc
+     		umount /tmp/$PARTIELEGIDA/sys
+     		umount /tmp/$PARTIELEGIDA
+
+     		${GMessage} --info --text "${TEXT3}" --window-icon "$ICON" --image "$ICON"
+		;;
+		-1) killall rsync
+     		killall dd
+     		umount -a
+     		umount /tmp/$PARTIELEGIDA/dev
+     		umount /tmp/$PARTIELEGIDA/proc
+     		umount /tmp/$PARTIELEGIDA/sys
+     		umount /tmp/$PARTIELEGIDA
+
+     		${GMessage} --info --text "${TEXT4}" --window-icon "$ICON" --image "$ICON"
+		;;
+esac
+}
+
+MESSAGE=$(yad --window-icon "$ICON" --image "$ICON" --title "$TIT0" --text "$MSG" )
+ret=$?
+if [ "$ret" != "0" ]; then
+	exit 0
+else
+	traspasaMiniNo
+fi
+
