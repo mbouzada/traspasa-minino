@@ -49,7 +49,7 @@ pregunta en el <a href='http://minino.galpon.org/es/forum'>fòrum de GALPon Mini
 		TIT0="Transferir el sistema"
 		TIT1="¿Dónde transferimos todo el sistema?"
 		TEXT1A="El destino debe tener un tamaño de al menos"
-		TEXT1B="y estar formateado en EXT4.\n\nNecesitará el doble de tamaño si está transfiriendo desde un DVD en vivo (live)."
+		TEXT1B="y estar formateado en EXT4.\n\n"
 		TIT2="Transfiriendo el sistema ..."
 		TEXT2="Sistema transferido.\n\nReinicie el sistema antes de desenchufar\npara asegurar que todas las particiones\nse desmontaron correctamente."
 		TEXT3="Transferencia cancelada.\nEl sistema no está completamente transferido."
@@ -74,7 +74,7 @@ pregunte en el <a href='http://minino.galpon.org/es/forum'>foro de GALPon MiniNo
 		TIT0="Transferir o sistema"
 		TIT1="Cara onde transferimos todo o sistema?"
 		TEXT1A="O destino ten que ter un tamaño de a lo menos"
-		TEXT1B="e estar formatado en EXT4.\n\nNecesitará o dobre de espazo se está a transferir desde un DVD en vivo (live)."
+		TEXT1B="e estar formatado en EXT4.\n\n"
 		TIT2="Transferindo o sistema ..."
 		TEXT2="Sistema transferido.\n\nReinicie o sistema antes de desenchufar\npara asegurar que todas as particións\nforon desmontadas correctamente."
 		TEXT3="Transferencia cancelada.\nO sistema non foi transferido completamente."
@@ -98,7 +98,7 @@ pregunte no <a href='http://minino.galpon.org/gl/forum'>foro de GALPon MiniNo</a
 		TIT0="Transfer system"
 		TIT1="Where the system will be transfered?"
 		TEXT1A="The target must have a size of at least"
-		TEXT1B="and formated in EXT4.\n\nYou will need double the size if the source is a live DVD."
+		TEXT1B="and formated in EXT4."
 		TIT2="Transfering the system..."
 		TEXT2="System transfered.\n\nRestart before unpluging\nto be sure all partitions\nare umounted."
 		TEXT3="Transfer canceled.\nThe system is not transfered completly."
@@ -121,46 +121,59 @@ please ask in <a href='http://minino.galpon.org/en/forum'>GALPon MiniNo forum</a
 	;;
 esac
 
-# DEPENDENCIAS: gdisk, util-linux, zenity o yad, refind, grub
+# DEPENDENCIAS: gdisk, util-linux, yad, refind, grub
 
-# Determinar si usar Zenity o Yad
-if [ -e /usr/bin/yad ]; then
-	WINDOW="yad"
-else
-	WINDOW="zenity"
-fi
+# Determinar si estamos en un livedvd o no
+LIVE=`df | grep aufs`
+if [ "$LIVE" != "" ];then echo "LiveDVD" && LIVE=yes;fi
 
 KERNEL="vmlinuz-`uname -r`"
 ICON="drive-harddisk"
 
 traspasaMiniNo(){
 
-	rm /tmp/todaslasparticiones;touch /tmp/todaslasparticiones
+	rm /tmp/todaslasparticiones*
 
 	# RECOGEMOS DATOS
 #	discousado=`df -h|grep "rootfs"|awk '{print $3}'`
 #	tamanioroot=`df |grep "rootfs"|awk '{print $3}'`
- 	discousado=`df -h|grep "/dev/$1"|awk '{print $3}'`
- 	tamanioroot=`df |grep "/dev/$1"|awk '{print $3}'`
+ 	discousado=`df -h|grep -w "/"|awk '{print $3}'`
+		if [ "$LIVE" = "yes" ];then 
+			discousado=`df |grep squashfs|awk '{print $3}'`
+			scale=2
+			discousado=`echo "scale=1;$discousado*2/1024/1024"|bc`
+			discousado="${discousado}GB"
+		fi 
+ 	tamanioroot=`df |grep -w "/"|awk '{print $3}'`
+		if [ "$LIVE" = "yes" ];then tamanioroot=`df|grep squashfs|awk '{print $3}'`;fi
 	blkid -o device >/tmp/particiones
 	blkid >/tmp/infoparticiones
-	python encuentra-pendrive.py >/tmp/infopendrives
+	python /usr/local/bin/encuentra-pendrive.py >/tmp/infopendrives
+	while read -r line
+	do
+		caracterfinal=`echo -n $line|tail -c 1`
+		if [[ $caracterfinal != *[[:digit:]]* ]]; then echo "$line" >>/tmp/infopen; fi
+	done</tmp/infopendrives
+	mv /tmp/infopen /tmp/infopendrives
 
-	# ESTO ES PARA EL FORMATEO DE LO QUE APARECERÁ EN ZENITY/YAD
+	# ESTO ES PARA EL FORMATEO DE LO QUE APARECERÁ EN yad/YAD
 	# particion tiene forma /dev/sda1
 	for particion in `cat /tmp/particiones`;do
-		INFOPARTI=`fdisk -l $particion|grep $particion|grep bytes|cut -d"," -f1`
+		INFOPARTI=`fdisk -l "$particion"|grep "$particion"|grep bytes|awk '{print $3 $4}'`
 		SD=`echo $particion|tr -d [:digit:]`
-		SDINFO=`cat /tmp/infopendrives|grep $SD|cut -d"," -f1`
+		SDINFO=`cat /tmp/infopendrives|grep -a $SD|cut -d"," -f1`
 		LABEL=`cat /tmp/infoparticiones|grep $particion|awk -F'LABEL=' '{print $2}'|awk '{print $1}'`
-		if [ "$LABEL" == "" ];then LABEL="Sin etiqueta";fi
+			if [ "$LABEL" == "" ];then LABEL="Sin etiqueta";fi
 		FORMAT=`cat /tmp/infoparticiones|grep $particion|awk -F'TYPE=' '{print $2}'|awk '{print $1}'`
 		ESPACIO=" ----> "
-		LINEA="$INFOPARTI $FORMAT $ESPACIO $LABEL $SDINFO"
-		echo "$LINEA" >>/tmp/todaslasparticiones
+		LINEA="$particion:  $INFOPARTI $FORMAT $ESPACIO $LABEL $SDINFO"
+		echo "$LINEA" >>/tmp/todaslasparticiones_repes		
 	done
+	sort -u /tmp/todaslasparticiones_repes > /tmp/a;mv /tmp/a /tmp/todaslasparticiones_sinrepes
+	cat /tmp/todaslasparticiones_sinrepes|grep "ext4" >/tmp/todaslasparticiones
 	rpl ": " ":   " /tmp/todaslasparticiones
-	cat /tmp/todaslasparticiones |cut -d" " -f2- |tac| ${WINDOW} --list --title "${TIT1}" \
+
+	cat /tmp/todaslasparticiones |cut -d" " -f1- |tac| yad --list --title "${TIT1}" \
 		--text "${TEXT1A} <b>${discousado}</b> ${TEXT1B}" --width 500 --height 300 \
 		--window-icon "$ICON" --image "$ICON" \
 		--column Dispositivos >/tmp/partielegida
@@ -168,7 +181,8 @@ traspasaMiniNo(){
 
 	# PARTIELEGIDA tiene forma sda1
 	PARTIELEGIDA=`cat /tmp/partielegida|cut -d":" -f1|cut -d"/" -f3`
-	if [ "$PARTIELEGIDA" == "" ] || [ "$PARTIELEGIDA" == "/" ];then exit 0;fi
+	echo "PARTICIÓN ELEGIDA: ${PARTIELEGIDA}"
+	if [ "$PARTIELEGIDA" == "" ] || [ "$PARTIELEGIDA" == "/" ];then echo "No se eligió ninguna opción" && exit 0;fi
 	umount /dev/$PARTIELEGIDA
 
 
@@ -274,14 +288,14 @@ traspasaMiniNo(){
 	echo -n ' quiet splash zswap.zpool=zsmalloc"' >>/tmp/$PARTIELEGIDA/boot/refind_linux.conf
 
 	if [ "$efipart" = "" ];then
-	    echo "No se encuentra la partición EFI."
+	    echo -n "No se encuentra la partición EFI." 
 	    
 	else
 		#efipart=$disk$efipart
 
-		echo "Instalamos refind"
-		cd /opt/refind/refind/
-		./refind-install --usedefault /dev/$efipart --alldrivers
+		echo "INSTALAMOS REFIND en /dev/$disk$efipart" >/tmp/refindi
+		cd /opt/refind/
+		./refind-install --usedefault /dev/$disk$efipart --alldrivers
 	fi
 
 
@@ -310,11 +324,11 @@ traspasaMiniNo(){
 	umount /tmp/$PARTIELEGIDA/sys
 	umount /tmp/$PARTIELEGIDA
 	echo 100
-	)|${WINDOW} --progress --auto-close --auto-kill --width 400 --title "${TIT2}" \
+	)|yad --progress --auto-close --auto-kill --width 400 --title "${TIT2}" \
 				--window-icon "$ICON" --image "$ICON"
 
 	case $? in
-		0) ${WINDOW} --info --text "${TEXT2}" --window-icon "$ICON" --image "$ICON"
+		0) yad --info --text "${TEXT2}" --window-icon "$ICON" --image "$ICON"
 		;;
 		1) killall rsync
      		killall dd
@@ -324,7 +338,7 @@ traspasaMiniNo(){
      		umount /tmp/$PARTIELEGIDA/sys
      		umount /tmp/$PARTIELEGIDA
 
-     		${WINDOW} --info --text "${TEXT3}" --window-icon "$ICON" --image "$ICON"
+     		yad --info --text "${TEXT3}" --window-icon "$ICON" --image "$ICON"
 		;;
 		-1) killall rsync
      		killall dd
@@ -334,12 +348,12 @@ traspasaMiniNo(){
      		umount /tmp/$PARTIELEGIDA/sys
      		umount /tmp/$PARTIELEGIDA
 
-     		${WINDOW} --info --text "${TEXT4}" --window-icon "$ICON" --image "$ICON"
+     		yad --info --text "${TEXT4}" --window-icon "$ICON" --image "$ICON"
 		;;
 esac
 }
 
-MESSAGE=$($WINDOW --info --text "$MSG" --title "$TIT0" --window-icon "$ICON" --image "$ICON")
+MESSAGE=$(yad --info --text "$MSG" --title "$TIT0" --window-icon "$ICON" --image "$ICON")
 ret=$?
 if [ "$ret" != "0" ]; then
 	exit 0
