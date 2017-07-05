@@ -130,6 +130,9 @@ if [ "$LIVE" != "" ];then echo "LiveDVD" && LIVE=yes;fi
 KERNEL="vmlinuz-`uname -r`"
 ICON="drive-harddisk"
 
+# Preparamos el nombre del icono en función del kernel actual
+mv /boot/vmlinuz-os_minino.png /boot/${KERNEL}.png
+
 traspasaMiniNo(){
 
 	rm /tmp/todaslasparticiones*
@@ -350,7 +353,10 @@ traspasaMiniNo(){
 
      		yad --info --text "${TEXT4}" --window-icon "$ICON" --image "$ICON"
 		;;
-esac
+	esac
+
+	# Devolvemos el nombre del icono a provisional para que no se lie el kernel al arrancar
+	mv /boot/${KERNEL}.png /boot/vmlinuz-os_minino.png
 }
 
 MESSAGE=$(yad --info --text "$MSG" --title "$TIT0" --window-icon "$ICON" --image "$ICON")
