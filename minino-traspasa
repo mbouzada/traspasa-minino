@@ -132,8 +132,6 @@ ICON="drive-harddisk"
 
 # Preparamos el icono para el arranque EFI
 cp /usr/local/share/icons/madexa.png /boot/${KERNEL}.png
-# Preparamos el nombre del icono en función del kernel actual
-#mv /boot/madexa.png 
 
 traspasaMiniNo(){
 
