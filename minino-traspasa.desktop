@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=Minino transfer
+Name[es]=Minino traspasa
+Name[gl]=Minino traspasa
+Name[ca]=Minino traspasa
+Comment=Transfer all system into a hard disk or pendrive
+Comment[ca]=Transfereix tot el sistema a un disc dur o memòria USB
+Comment[es]=Transfiera todo el sistema a un disco duro o memoria USB
+Comment[gl]=Transfira todo o sistema a un disco ríxido ou memoria USB
+Type=Application
+Terminal=false
+Icon=history-view
+Exec=gksudo minino-traspasa
+Categories=Minino
