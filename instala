@@ -6,5 +6,4 @@ sudo apt-get install gdisk
 cp encuentra-pendrive.py /usr/local/bin
 cp minino-traspasa /usr/local/bin
 cp -a refind /opt/
-cp vmlinuz-os_minino.png /boot
 cp minino-traspasa.desktop /usr/local/share/applications/minino
