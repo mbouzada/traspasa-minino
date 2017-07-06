@@ -354,9 +354,6 @@ traspasaMiniNo(){
      		yad --info --text "${TEXT4}" --window-icon "$ICON" --image "$ICON"
 		;;
 	esac
-
-	# Devolvemos el nombre del icono a provisional para que no se lie el kernel al arrancar
-	rm /boot/${KERNEL}.png
 }
 
 MESSAGE=$(yad --info --text "$MSG" --title "$TIT0" --window-icon "$ICON" --image "$ICON")
@@ -367,3 +364,5 @@ else
 	traspasaMiniNo
 fi
 
+# Eliminamos el icono para que no se lie el kernel al arrancar
+rm /boot/${KERNEL}.png
