@@ -21,6 +21,7 @@
 
 case $LANG in
 	ca*)
+		TIT="Minino traspasa"
 		TIT0="Transferir el sistema"
 		TIT1="On transferim tot el sistema?"
 		TEXT1A="La destinació ha de tenir una mida d'almenys"
@@ -33,11 +34,16 @@ case $LANG in
 		ECHO2="Uf! La carpeta /usr sí que té coses..."
 		ECHO3="Ja queda menys."
 		ECHO4="Ja queda molt poquet."
-
 MSG="Aquesta utilitat <b>no formata</b> el disc de destinació, 
 simplement copia i instal·la un carregador d'arrencada. 
-Si necessites formatar, fes-ho abans de llançar l'script, 
-pots utilitzar l'eina <i>Gparted</i> per a això. \n
+Si necessita formatar, faci-ho abans de llançar l'script, 
+per aixó pot utilitzar l'eina <i>Gparted</i>. \n
+L'estructura a crear és la sigüent: 
+\tHauràs (com a mínim) de fer <b>3 particions</b> \n\tamb taula <b>GPT</b>. 
+\t\t<b>Mida</b>\t\t<b>Etiqueta</b>\t<b>Format</b> 
+\t\t512 MB\t\tUEFI\t\t\tfat32 
+\t\t    2 MB\t\tGrub\t\tCap 
+\t\tResta\t\tMiniNo\t\tExt4 \n
 A més, vés amb compte i neteja l'historial dels navegadors, 
 contrasenyes que puguis tenir guardades, documents a les 
 teves carpetes personals ... abans de bolcar el sistema en 
@@ -46,6 +52,7 @@ Si necessites informació sobre com fer això,
 pregunta en el <a href='http://minino.galpon.org/es/forum'>fòrum de GALPon MiniNo</a>. "
 	;;
 	es*)
+		TIT="Minino traspasa"
 		TIT0="Transferir el sistema"
 		TIT1="¿Dónde transferimos todo el sistema?"
 		TEXT1A="El destino debe tener un tamaño de al menos"
@@ -61,7 +68,13 @@ pregunta en el <a href='http://minino.galpon.org/es/forum'>fòrum de GALPon Mini
 MSG="Esta utilidad <b>no formatea</b> el disco de destino, 
 simplemente copia e instala un cargador de arranque. 
 Si necesita formatear, hágalo antes de lanzar el script, 
-puede utilizar la herramienta <i>Gparted</i> para ello. \n
+para ello puede utilizar la herramienta <i>Gparted</i>. \n
+La estructura a crear es la siguiente: \n
+\tDeberá (como mínimo) hacer <b>3 particiones</b> \n\tcon tabla <b>GPT</b>. 
+\t\t<b>Tamaño</b>\t\t<b>Etiqueta</b>\t<b>Formato</b> 
+\t\t512 MB\t\tUEFI\t\t\tfat32 
+\t\t    2 MB\t\tGrub\t\tNinguno 
+\t\tResto\t\tMiniNo\t\tExt4 \n
 Además, tenga cuidado y limpie el historial de los 
 navegadores, contraseñas que pueda tener guardadas, 
 documentos en sus carpetas personales... antes de 
@@ -71,9 +84,10 @@ Si necesita información sobre cómo hacer esto,
 pregunte en el <a href='http://minino.galpon.org/es/forum'>foro de GALPon MiniNo</a>. "
 	;;
 	gl*)
+		TIT="Minino traspasa"
 		TIT0="Transferir o sistema"
 		TIT1="Cara onde transferimos todo o sistema?"
-		TEXT1A="O destino ten que ter un tamaño de a lo menos"
+		TEXT1A="O destino ten que ter un tamaño de canda menos"
 		TEXT1B="e estar formatado en EXT4.\n\n"
 		TIT2="Transferindo o sistema ..."
 		TEXT2="Sistema transferido.\n\nReinicie o sistema antes de desenchufar\npara asegurar que todas as particións\nforon desmontadas correctamente."
@@ -85,8 +99,14 @@ pregunte en el <a href='http://minino.galpon.org/es/forum'>foro de GALPon MiniNo
 		ECHO4="Pouco queda xa."
 MSG="Esta utilidade <b>non formata</b> o disco de destino,
 simplemente copia e instala un cargador de arrinque.
-Se necesita formatar, fágao antes de executar o script,
-pode utilizar a ferramenta <i>Gparted</i> para elo. \n
+Se precisa formatar, fágao antes de executar o script, 
+para elo pode utilizar a ferramenta <i>Gparted</i>. \n
+A estructura a crear é a seguinte: \n
+\tDeberá (como mínimo) facer <b>3 particións</b> \n\tcoa táboa <b>GPT</b>. 
+\t\t<b>Tamaño</b>\t\t<b>Etiqueta</b>\t<b>Formato</b>  
+\t\t512 MB\t\tUEFI\t\t\tfat32 
+\t\t    2 MB\t\tGrub\t\tNingún 
+\t\tResto\t\tMiniNo\t\tExt4 \n
 Ademais, teña coidado e limpe o historial dos navegadores,
 contrasinais que poida ter gardadas, documentos nos seus
 cartafoles persoais... antes de envorcar o sistema no
@@ -95,6 +115,7 @@ Se necesita información sobre como facer isto,
 pregunte no <a href='http://minino.galpon.org/gl/forum'>foro de GALPon MiniNo</a>. "
 	;;
 	*)
+		TIT="Minino transfer"
 		TIT0="Transfer system"
 		TIT1="Where the system will be transfered?"
 		TEXT1A="The target must have a size of at least"
@@ -111,6 +132,12 @@ MSG="This utility does <b>not format</b> the target disk,
 simply copies files and installs a boot loader.
 If you need to format, do it before launching the utility,
 you can use <i>Gparted</i> tool for this task. \n
+ The structure should be as follow: 
+\tYou must (at least) do <b>3 partitions</b> \n\twith <b>GPT</b> table. 
+\t\t<b>Size</b>\t\t<b>Label</b>\t\t<b>Format</b> 
+\t\t512 MB\t\tUEFI\t\t\tfat32 
+\t\t    2 MB\t\tGrub\t\tNone 
+\t\tRest\t\t\tMiniNo\t\tExt4 \n
 Also, be careful and clean the browser history,
 saved passwords you may have, documents in your
 personal folders ... before transfer the system
@@ -129,9 +156,6 @@ if [ "$LIVE" != "" ];then echo "LiveDVD" && LIVE=yes;fi
 
 KERNEL="vmlinuz-`uname -r`"
 ICON="drive-harddisk"
-
-# Preparamos el icono para el arranque EFI
-cp /usr/local/share/icons/madexa.png /boot/${KERNEL}.png
 
 traspasaMiniNo(){
 
@@ -187,6 +211,9 @@ traspasaMiniNo(){
 	echo "PARTICIÓN ELEGIDA: ${PARTIELEGIDA}"
 	if [ "$PARTIELEGIDA" == "" ] || [ "$PARTIELEGIDA" == "/" ];then echo "No se eligió ninguna opción" && exit 0;fi
 	umount /dev/$PARTIELEGIDA
+
+	# Preparamos el icono para el arranque EFI
+	cp /usr/local/share/icons/madexa.png /boot/${KERNEL}.png
 
 
 	# AQUÍ TRANSFERIMOS EL SISTEMA
@@ -328,10 +355,13 @@ traspasaMiniNo(){
 	umount /tmp/$PARTIELEGIDA
 	echo 100
 	)|yad --progress --auto-close --auto-kill --width 400 --title "${TIT2}" \
-				--window-icon "$ICON" --image "$ICON"
+		--window-icon "$ICON" --image "$ICON"
+
+	# Eliminamos el icono para que no se lie el kernel al arrancar
+	rm /boot/${KERNEL}.png
 
 	case $? in
-		0) yad --info --text "${TEXT2}" --window-icon "$ICON" --image "$ICON"
+		0) yad --info --text "${TEXT2}" --window-icon "$ICON" --image "$ICON" --button="gtk-ok:0" --title "${TIT}"
 		;;
 		1) killall rsync
      		killall dd
@@ -341,7 +371,7 @@ traspasaMiniNo(){
      		umount /tmp/$PARTIELEGIDA/sys
      		umount /tmp/$PARTIELEGIDA
 
-     		yad --info --text "${TEXT3}" --window-icon "$ICON" --image "$ICON"
+     		yad --info --text "${TEXT3}" --window-icon "$ICON" --image "$ICON" --title "${TIT}"
 		;;
 		-1) killall rsync
      		killall dd
@@ -351,7 +381,7 @@ traspasaMiniNo(){
      		umount /tmp/$PARTIELEGIDA/sys
      		umount /tmp/$PARTIELEGIDA
 
-     		yad --info --text "${TEXT4}" --window-icon "$ICON" --image "$ICON"
+     		yad --info --text "${TEXT4}" --window-icon "$ICON" --image "$ICON" --title "${TIT}"
 		;;
 	esac
 }
@@ -363,6 +393,3 @@ if [ "$ret" != "0" ]; then
 else
 	traspasaMiniNo
 fi
-
-# Eliminamos el icono para que no se lie el kernel al arrancar
-rm /boot/${KERNEL}.png
