@@ -38,7 +38,10 @@ MSG="Aquesta utilitat <b>no formata</b> el disc de destinació,
 simplement copia i instal·la un carregador d'arrencada. 
 Si necessita formatar, faci-ho abans de llançar l'script, 
 per aixó pot utilitzar l'eina <i>Gparted</i>. \n
-L'estructura a crear és la sigüent: 
+Per fer servir <i>només</i> l'opció d'arrencada amb <b>Grub</b>, 
+crea un partició <b>Ext4</b>. \n
+Si vols triar entre <b>Grub</b> i <b>UEFI</b>, l'estructura a crear 
+és la següent:
 \tHauràs (com a mínim) de fer <b>3 particions</b> \n\tamb taula <b>GPT</b>. 
 \t\t<b>Mida</b>\t\t<b>Etiqueta</b>\t<b>Format</b> 
 \t\t512 MB\t\tUEFI\t\t\tfat32 
@@ -69,7 +72,10 @@ MSG="Esta utilidad <b>no formatea</b> el disco de destino,
 simplemente copia e instala un cargador de arranque. 
 Si necesita formatear, hágalo antes de lanzar el script, 
 para ello puede utilizar la herramienta <i>Gparted</i>. \n
-La estructura a crear es la siguiente: \n
+Para usar <i>solo</i> la opción de arranque con <b>Grub</b>, 
+cree una partición <b>Ext4</b>. \n
+Si quiere poder elegir entre <b>Grub</b> y <b>UEFI</b> en el arranque, 
+la estructura a crear es la siguiente: 
 \tDeberá (como mínimo) hacer <b>3 particiones</b> \n\tcon tabla <b>GPT</b>. 
 \t\t<b>Tamaño</b>\t\t<b>Etiqueta</b>\t<b>Formato</b> 
 \t\t512 MB\t\tUEFI\t\t\tfat32 
@@ -101,7 +107,10 @@ MSG="Esta utilidade <b>non formata</b> o disco de destino,
 simplemente copia e instala un cargador de arrinque.
 Se precisa formatar, fágao antes de executar o script, 
 para elo pode utilizar a ferramenta <i>Gparted</i>. \n
-A estructura a crear é a seguinte: \n
+Para usar <i>só</i> a opción de arrinque con <b>Grub</b>, 
+cree unha partición <b>Ext4</b>. \n
+Se quere poder escoller entre <b>Grub</b> e <b>UEFI</b> no arrinque, 
+a estrutura a crear é a seguinte: 
 \tDeberá (como mínimo) facer <b>3 particións</b> \n\tcoa táboa <b>GPT</b>. 
 \t\t<b>Tamaño</b>\t\t<b>Etiqueta</b>\t<b>Formato</b>  
 \t\t512 MB\t\tUEFI\t\t\tfat32 
@@ -132,6 +141,10 @@ MSG="This utility does <b>not format</b> the target disk,
 simply copies files and installs a boot loader.
 If you need to format, do it before launching the utility,
 you can use <i>Gparted</i> tool for this task. \n
+If you want to use <i>only</i> <b>grub</b> booting, you only need 
+one <b>Ext4</b> partition. \n
+If you want to choose between <b>Grub</b> and <b>UEFI</b> at the 
+boot of the system, the structure to create would be as follow: 
  The structure should be as follow: 
 \tYou must (at least) do <b>3 partitions</b> \n\twith <b>GPT</b> table. 
 \t\t<b>Size</b>\t\t<b>Label</b>\t\t<b>Format</b> 
