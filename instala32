@@ -1,9 +1,9 @@
 #!/bin/bash
 
-sudo apt-get update
-sudo apt-get install gdisk
+sudo apt update
+sudo apt install gdisk
 
 cp encuentra-pendrive.py /usr/local/bin
-cp minino-traspasa /usr/local/bin
-cp -a refind /opt/
+cp minino-traspasa32 /usr/local/bin/minino-traspasa
+#cp -a refind /opt/
 cp minino-traspasa.desktop /usr/local/share/applications/minino
