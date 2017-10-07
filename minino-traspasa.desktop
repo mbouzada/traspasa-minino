@@ -12,4 +12,3 @@ Terminal=false
 Icon=history-view
 Exec=gksudo minino-traspasa
 Categories=Minino
-Name[gl_ES]=minino-traspasa
